@@ -4,7 +4,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private GameObject car;
 
-    [SerializeField] private Vector3 offset;
+    private Vector3 offset;
 
     private void Start()
     {
