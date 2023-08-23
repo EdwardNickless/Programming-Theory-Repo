@@ -5,21 +5,21 @@ public class Wheel : MonoBehaviour
     [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
-    
+    [SerializeField] private AnimationCurve wheelCurve;
+
     private WheelCollider wheelCollider;
-    private Vector3 meshPositionOffset;
+    
 
     private void Start()
     {
         wheelCollider = GetComponent<WheelCollider>();
-        meshPositionOffset = wheelMeshTransform.position - wheelCollider.transform.position;
     }
 
-    public void OperateWheel(float torqueAtWheel, float stoppingForce, float turnAngle)
+    public void OperateWheel(float currentSpeed, float torqueAtWheel, float stoppingForce, float turnMultiplier)
     {
         Accelerate(torqueAtWheel);
         Brake(stoppingForce);
-        Steer(turnAngle);
+        Steer(currentSpeed, turnMultiplier);
     }
 
     private void Accelerate(float torqueAtWheel)
@@ -36,13 +36,15 @@ public class Wheel : MonoBehaviour
         
     }
 
-    private void Steer(float turnAngle)
+    private void Steer(float currentSpeed, float turnMultiplier)
     {
         if (!isSteered)
         {
             return;
         }
-        wheelCollider.steerAngle = turnAngle;
+        float steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
+        Debug.Log(steerAngle);
+        wheelCollider.steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
     }
 
     private void LateUpdate()
