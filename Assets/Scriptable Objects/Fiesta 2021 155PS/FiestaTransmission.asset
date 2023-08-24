@@ -9,22 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 270de34386ea2c140acc9a6ad24f1ccb, type: 3}
-  m_Name: Fiesta
+  m_Script: {fileID: 11500000, guid: 76550a234884f97419ad49af1c4f79ad, type: 3}
+  m_Name: FiestaTransmission
   m_EditorClassIdentifier: 
-  idleRPM: 0
-  maxRPM: 0
-  idleTorque: 0
-  peakTorque: 0
-  idleHorsePower: 0
-  peakHorsePower: 0
   gearRatios:
-    keys: 00000000010000000200000003000000040000000500000006000000
+    keys: 010000000200000003000000040000000500000006000000
     values:
-    - 4.353
     - 3.417
     - 1.958
     - 1.276
     - 0.943
     - 0.757
     - 0.634
+  differentialRatio: 4.353
+  reverseGearRatio: 3.833

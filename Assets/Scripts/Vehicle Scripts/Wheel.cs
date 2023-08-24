@@ -2,20 +2,26 @@ using UnityEngine;
 
 public class Wheel : MonoBehaviour
 {
+    [SerializeField] private AnimationCurve wheelCurve;
     [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
-    [SerializeField] private AnimationCurve wheelCurve;
 
     private WheelCollider wheelCollider;
     
+    public bool IsPowered { get { return isPowered; } private set { isPowered = value; } }
+
+    public float RPM()
+    {
+        return wheelCollider.rpm;
+    }
 
     private void Start()
     {
         wheelCollider = GetComponent<WheelCollider>();
     }
 
-    public void OperateWheel(float currentSpeed, float torqueAtWheel, float stoppingForce, float turnMultiplier)
+    public void OperateWheel(float torqueAtWheel, float stoppingForce, float currentSpeed, float turnMultiplier)
     {
         Accelerate(torqueAtWheel);
         Brake(stoppingForce);
@@ -43,7 +49,6 @@ public class Wheel : MonoBehaviour
             return;
         }
         float steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
-        Debug.Log(steerAngle);
         wheelCollider.steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
     }
 

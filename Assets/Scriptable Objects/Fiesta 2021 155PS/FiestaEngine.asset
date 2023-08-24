@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270de34386ea2c140acc9a6ad24f1ccb, type: 3}
+  m_Name: FiestaEngine
+  m_EditorClassIdentifier: 
+  powerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 999.17755
+      value: 0.10748647
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1000.94867
+      value: 13.601966
+      inSlope: 0.032119744
+      outSlope: 0.032119744
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08985058
+    - serializedVersion: 3
+      time: 1500.0146
+      value: 29.906384
+      inSlope: 0.037978414
+      outSlope: 0.037978414
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.015890768
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1800.1757
+      value: 51.70497
+      inSlope: 0.029780716
+      outSlope: 0.029780716
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07773131
+      outWeight: 0.091752045
+    - serializedVersion: 3
+      time: 5500.81
+      value: 149.6701
+      inSlope: 0.011174921
+      outSlope: 0.011174921
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.108890824
+      outWeight: 0.04988448
+    - serializedVersion: 3
+      time: 6000.627
+      value: 155.00221
+      inSlope: -0.0000066105554
+      outSlope: -0.0000066105554
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.058012456
+      outWeight: 0.5221111
+    - serializedVersion: 3
+      time: 6491.3564
+      value: 149.62381
+      inSlope: -0.013288947
+      outSlope: -0.013288947
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06826969
+      outWeight: 0
+    - serializedVersion: 3
+      time: 6501.46
+      value: -0.0116996765
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  idleRPM: 1000

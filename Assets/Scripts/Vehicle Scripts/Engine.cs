@@ -2,63 +2,23 @@ using UnityEngine;
 
 public class Engine : MonoBehaviour
 {
-    [SerializeField] private EngineScriptableObject engine;
-    
-    private float idleRPM;
-    private float maxRPM;
-    private float idleTorque;
-    private float peakTorque;
-    private float idleHorsePower;
-    private float peakHorsePower;
-    private GearRatiosDictionary gearRatios;
+    [SerializeField] private EngineData engine;
+    [SerializeField] private Transmission transmission;
 
-    private int currentGear;
-    private int finalGear;
-
-    private float finalDriveRatio;
-
-    public int CurrentGear { get { return currentGear; } private set { currentGear = value; } }
-
-    private void Start()
+    private float accelerationForce;
+    public float CalculateOutputTorque(float currentRPM, int poweredWheelCount)
     {
-        InitializeEngineSpecs();
-        CurrentGear = 1;
-        finalGear = 6;
-    }
-
-    private void InitializeEngineSpecs()
-    {
-        idleRPM = engine.IdleRPM;
-        maxRPM = engine.MaxRPM;
-        idleTorque = engine.IdleTorque;
-        peakTorque = engine.PeakTorque;
-        idleHorsePower = engine.IdleHorsePower;
-        peakHorsePower = engine.PeakHorsePower;
-        gearRatios = engine.GearRatios;
-        finalDriveRatio = gearRatios.GetValue(0);
+        float currentPower = CalculateCurrentPower(currentRPM);
+        return (accelerationForce * transmission.CalculateOutputTorque(currentPower)) / poweredWheelCount;
     }
 
     private void Update()
     {
-        ChangeGear();
+        accelerationForce = Input.GetAxisRaw("Vertical");
     }
 
-    private void ChangeGear()
+    private float CalculateCurrentPower(float currentRPM)
     {
-        if (Input.GetKeyDown(KeyCode.Space) && currentGear < finalGear)
-        {
-            currentGear++;
-            Debug.Log(currentGear);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftControl) && currentGear > 1)
-        {
-            currentGear--;
-            Debug.Log(currentGear);
-        }
-    }
-
-    public float CalculateCurrentTorque(float enginePower)
-    {
-        return enginePower * gearRatios.GetValue(currentGear) * finalDriveRatio;
+        return Mathf.Max(engine.IdleRPM, engine.PowerCurve.Evaluate(currentRPM));
     }
 }

@@ -204,8 +204,10 @@ Transform:
   - {fileID: 1741197572743529601}
   - {fileID: 5152476557925258214}
   - {fileID: 7292916227135854447}
+  - {fileID: 7962382992284790178}
+  - {fileID: 3679870228380413828}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4816660084240652278
 MeshFilter:
@@ -323,10 +325,13 @@ MonoBehaviour:
   - {fileID: 1027154727804236281}
   - {fileID: 9154001316228994270}
   - {fileID: 8102479924635881694}
-  maxEnginePower: 0
+  engine: {fileID: 623528068015573827}
+  transmission: {fileID: 2031210957076984396}
+  headsUp: {fileID: 0}
+  centerOfMass: {fileID: 7962382992284790178}
+  maxEnginePower: 155
   brakingForce: 0
   turnForce: 0
-  maxTurnAngle: 30
 --- !u!1 &1782934321639828388
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +451,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70a840d883f4e4991fa9c1f4f8628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.14074063
+      value: 45.11357
+      inSlope: 0.014430351
+      outSlope: 0.014430351
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.043749005
+    - serializedVersion: 3
+      time: 60.004208
+      value: 15.007794
+      inSlope: -0.10807168
+      outSlope: -0.10807168
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.016826438
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   wheelMeshTransform: {fileID: 3835759804745282556}
   isPowered: 1
   isSteered: 1
@@ -817,9 +846,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70a840d883f4e4991fa9c1f4f8628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   wheelMeshTransform: {fileID: 4858196308727666221}
   isPowered: 0
   isSteered: 0
+--- !u!1 &4874783999877627339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3679870228380413828}
+  - component: {fileID: 623528068015573827}
+  - component: {fileID: 2031210957076984396}
+  m_Layer: 0
+  m_Name: PowerTrain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3679870228380413828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874783999877627339}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8452201139769551740}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &623528068015573827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874783999877627339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958ad07140f8dbd4b97278d1adb91f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engine: {fileID: 11400000, guid: 1a3b366ba8cbc8f4097ab8171f077655, type: 2}
+  transmission: {fileID: 2031210957076984396}
+--- !u!114 &2031210957076984396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874783999877627339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4018e86e1961114a936a52ab2af0906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transmissionData: {fileID: 11400000, guid: fe08dbb4812ba874e9fb76f98422ac2b, type: 2}
 --- !u!1 &4980565158221497187
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +1017,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70a840d883f4e4991fa9c1f4f8628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   wheelMeshTransform: {fileID: 6325192930196836086}
   isPowered: 0
   isSteered: 0
@@ -991,6 +1110,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70a840d883f4e4991fa9c1f4f8628b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.14074063
+      value: 45.11357
+      inSlope: 0.014430351
+      outSlope: 0.014430351
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.043749005
+    - serializedVersion: 3
+      time: 60.004208
+      value: 15.007794
+      inSlope: -0.10807168
+      outSlope: -0.10807168
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.016826438
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   wheelMeshTransform: {fileID: 6607192432039049971}
   isPowered: 1
   isSteered: 1
@@ -1160,3 +1303,34 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8787866835277090266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7962382992284790178}
+  m_Layer: 0
+  m_Name: CenterOfMass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7962382992284790178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8787866835277090266}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8452201139769551740}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

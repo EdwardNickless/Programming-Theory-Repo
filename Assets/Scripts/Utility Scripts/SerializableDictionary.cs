@@ -37,3 +37,6 @@ public class SerializableDictionary<TKey, TValue>
         return values[index];
     }
 }
+
+[Serializable]
+public class GearRatiosDictionary : SerializableDictionary<int, float> { }
