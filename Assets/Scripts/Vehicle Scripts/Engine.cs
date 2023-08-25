@@ -14,7 +14,7 @@ public class Engine : MonoBehaviour
 
     private void Update()
     {
-        accelerationForce = Input.GetAxisRaw("Vertical");
+        accelerationForce = Input.GetAxisRaw("Throttle");
     }
 
     private float CalculateCurrentPower(float currentRPM)

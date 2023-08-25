@@ -91,3 +91,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   idleRPM: 1000
+  maxRPM: 6500

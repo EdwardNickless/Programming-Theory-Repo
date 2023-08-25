@@ -33,11 +33,6 @@ public class Transmission : MonoBehaviour
         reverseGearRatio = transmissionData.ReverseGearRatio;
     }
 
-    private void Update()
-    {
-        ChangeGear();
-    }
-
     public float CalculateOutputTorque(float crankshaftTorque)
     {
         if (currentGear > 0)
@@ -51,13 +46,18 @@ public class Transmission : MonoBehaviour
         else { return 0.0f; }
     }
 
+    private void Update()
+    {
+        ChangeGear();
+    }
+
     private void ChangeGear()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             ShiftUp();
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             ShiftDown();
         }

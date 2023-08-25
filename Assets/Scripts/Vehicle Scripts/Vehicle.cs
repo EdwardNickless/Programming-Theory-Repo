@@ -64,7 +64,7 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        turnForce = Input.GetAxisRaw("Horizontal");
+        turnForce = Input.GetAxisRaw("Steer");
         currentSpeed = (carRb.velocity.magnitude * 3600f) / 1609.34f;
         CalculateCurrentRPM(wheels, PoweredWheelCount);
         headsUp.UpdateHUD(transmission.CurrentGear, currentSpeed, CurrentRPM);
