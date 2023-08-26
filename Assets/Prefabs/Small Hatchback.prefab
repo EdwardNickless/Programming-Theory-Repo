@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5357059900932878270}
   - component: {fileID: 7397792174236856082}
   m_Layer: 0
-  m_Name: Sterring Wheel
+  m_Name: Steering Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,15 +199,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7962382992284790178}
+  - {fileID: 5152476557925258214}
+  - {fileID: 3679870228380413828}
+  - {fileID: 7292916227135854447}
   - {fileID: 6758637118817764601}
   - {fileID: 8848250060593281805}
   - {fileID: 1741197572743529601}
-  - {fileID: 5152476557925258214}
-  - {fileID: 7292916227135854447}
-  - {fileID: 7962382992284790178}
-  - {fileID: 3679870228380413828}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4816660084240652278
 MeshFilter:
@@ -329,9 +329,7 @@ MonoBehaviour:
   transmission: {fileID: 2031210957076984396}
   headsUp: {fileID: 0}
   centerOfMass: {fileID: 7962382992284790178}
-  maxEnginePower: 155
   brakingForce: 0
-  turnForce: 0
 --- !u!1 &1782934321639828388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8787866835277090266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

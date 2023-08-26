@@ -528,10 +528,6 @@ PrefabInstance:
       propertyPath: headsUp
       value: 
       objectReference: {fileID: 149625389}
-    - target: {fileID: 5109836586803691575, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
-      propertyPath: maxEnginePower
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8452201139769551740, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -957,7 +953,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1091,7 +1087,7 @@ Transform:
   m_GameObject: {fileID: 2067194345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalScale: {x: 50, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

@@ -6,6 +6,7 @@ public class Transmission : MonoBehaviour
 
     private GearRatiosDictionary gearRatios;
     private int currentGear;
+    private int topGear;
     private float differentialRatio;
     private float reverseGearRatio;
     private float outputTorque;
@@ -29,6 +30,7 @@ public class Transmission : MonoBehaviour
     private void Start()
     {
         gearRatios = transmissionData.GearRatios;
+        topGear = transmissionData.GearRatios.Count - 1;
         differentialRatio = transmissionData.DifferentialRatio;
         reverseGearRatio = transmissionData.ReverseGearRatio;
     }
@@ -65,13 +67,8 @@ public class Transmission : MonoBehaviour
 
     private void ShiftUp()
     {
-        if (currentGear == 6)
+        if (currentGear == topGear)
         {
-            return;
-        }
-        if (currentGear == 0)
-        {
-            currentGear = 1;
             return;
         }
         if (currentGear == -1)
@@ -79,7 +76,7 @@ public class Transmission : MonoBehaviour
             currentGear = 0;
             return;
         }
-        if (currentGear < gearRatios.Count)
+        if (currentGear < topGear)
         {
             currentGear++;
             return;

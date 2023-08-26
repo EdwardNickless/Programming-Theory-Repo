@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: FiestaTransmission
   m_EditorClassIdentifier: 
   gearRatios:
-    keys: 010000000200000003000000040000000500000006000000
+    keys: 00000000010000000200000003000000040000000500000006000000
     values:
+    - 0
     - 3.417
     - 1.958
     - 1.276

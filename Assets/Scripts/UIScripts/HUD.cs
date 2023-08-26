@@ -22,7 +22,18 @@ public class HUD : MonoBehaviour
 
     private void UpdateGearText(int currentGear)
     {
-        gearText.text = "Gear: " + currentGear;
+        if (currentGear == 0)
+        {
+            gearText.text = "Gear: Neutral";
+        }
+        else if (currentGear == -1)
+        {
+            gearText.text = "Gear: Reverse";
+        }
+        else
+        {
+            gearText.text = "Gear: " + currentGear;
+        }
     }
 
     private void UpdateSpeedometerText(float currentSpeed)
