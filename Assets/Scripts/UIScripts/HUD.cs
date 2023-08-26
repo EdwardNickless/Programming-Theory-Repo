@@ -24,11 +24,11 @@ public class HUD : MonoBehaviour
     {
         if (currentGear == 0)
         {
-            gearText.text = "Gear: Neutral";
+            gearText.text = "Gear: N";
         }
         else if (currentGear == -1)
         {
-            gearText.text = "Gear: Reverse";
+            gearText.text = "Gear: R";
         }
         else
         {
