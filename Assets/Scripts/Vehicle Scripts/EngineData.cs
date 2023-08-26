@@ -3,10 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Engine", menuName = "Scriptable Objects/Engine")]
 public class EngineData : ScriptableObject
 {
-    [SerializeField] private AnimationCurve powerCurve;
-    [SerializeField] private float idleRPM;
+    [SerializeField] private AnimationCurve torqueCurve;
+    [SerializeField] private float minRPM;
     [SerializeField] private float maxRPM;
-    public AnimationCurve PowerCurve { get { return powerCurve; } }
-    public float IdleRPM { get { return idleRPM; } }
+    [SerializeField] private float idleRange;
+
+    public AnimationCurve TorqueCurve { get { return torqueCurve; } }
+    public float MinRPM { get { return minRPM; } }
     public float MaxRPM { get { return maxRPM; } }
+    public float IdleRange { get { return idleRange; } }
 }

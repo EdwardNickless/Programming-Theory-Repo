@@ -17,7 +17,7 @@ public class Transmission : MonoBehaviour
     {
         if (currentGear == 0)
         {
-            return 1;
+            return 1.0f;
         }
         if (currentGear > 0)
         {

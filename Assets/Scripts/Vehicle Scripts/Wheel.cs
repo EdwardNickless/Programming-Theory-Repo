@@ -8,6 +8,7 @@ public class Wheel : MonoBehaviour
     [SerializeField] private bool isSteered;
 
     private WheelCollider wheelCollider;
+    private float turnForce;
     
     public bool IsPowered { get { return isPowered; } private set { isPowered = value; } }
 
@@ -21,11 +22,16 @@ public class Wheel : MonoBehaviour
         wheelCollider = GetComponent<WheelCollider>();
     }
 
-    public void OperateWheel(float torqueAtWheel, float stoppingForce, float currentSpeed, float turnMultiplier)
+    private void Update()
+    {
+        turnForce = Input.GetAxisRaw("Steer");
+    }
+
+    public void OperateWheel(float torqueAtWheel, float stoppingForce, float currentSpeed)
     {
         Accelerate(torqueAtWheel);
         Brake(stoppingForce);
-        Steer(currentSpeed, turnMultiplier);
+        Steer(currentSpeed);
     }
 
     private void Accelerate(float torqueAtWheel)
@@ -42,14 +48,14 @@ public class Wheel : MonoBehaviour
         
     }
 
-    private void Steer(float currentSpeed, float turnMultiplier)
+    private void Steer(float currentSpeed)
     {
         if (!isSteered)
         {
             return;
         }
-        float steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
-        wheelCollider.steerAngle = turnMultiplier * wheelCurve.Evaluate(currentSpeed);
+        float steerAngle = turnForce * wheelCurve.Evaluate(currentSpeed);
+        wheelCollider.steerAngle = steerAngle;
     }
 
     private void LateUpdate()
