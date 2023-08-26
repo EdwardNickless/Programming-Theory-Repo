@@ -4,6 +4,7 @@ public class Wheel : MonoBehaviour
 {
     [SerializeField] private AnimationCurve wheelCurve;
     [SerializeField] private Transform wheelMeshTransform;
+    [SerializeField] private Brake brake;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
 
@@ -27,10 +28,10 @@ public class Wheel : MonoBehaviour
         turnForce = Input.GetAxisRaw("Steer");
     }
 
-    public void OperateWheel(float torqueAtWheel, float stoppingForce, float currentSpeed)
+    public void OperateWheel(float torqueAtWheel, float currentSpeed)
     {
         Accelerate(torqueAtWheel);
-        Brake(stoppingForce);
+        Brake(brake.StoppingForce);
         Steer(currentSpeed);
     }
 
@@ -43,9 +44,18 @@ public class Wheel : MonoBehaviour
         wheelCollider.motorTorque = torqueAtWheel;
     }
 
+    public void Decelerate(float torqueAtWheel)
+    {
+        if (!isPowered)
+        {
+            return;
+        }
+        wheelCollider.motorTorque = -torqueAtWheel;
+    }
+
     private void Brake(float stoppingForce)
     {
-        
+        wheelCollider.brakeTorque = stoppingForce;
     }
 
     private void Steer(float currentSpeed)

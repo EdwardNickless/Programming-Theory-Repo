@@ -6,14 +6,34 @@ public class Engine : MonoBehaviour
     [SerializeField] private Transmission transmission;
 
     private float accelerationForce;
-    public float CalculateOutputTorque(float currentRPM, int poweredWheelCount)
+    public float AccelerationForce { get { return accelerationForce; } private set {  accelerationForce = value; } }
+    
+    public float CalculateOutputTorque(float currentRPM, float currentSpeed, int poweredWheelCount)
     {
         if (currentRPM >= (engine.MaxRPM - engine.IdleRange))
         {
             return 0.0f;
         }
+        if (currentSpeed >= 144)
+        {
+            return 0.0f;
+        }
         float currentPower = CalculateCurrentTorque(currentRPM);
         return (accelerationForce * transmission.CalculateOutputTorque(currentPower)) / poweredWheelCount;
+    }
+
+    public float CalculateResistanceTorque(float currentRPM, float currentSpeed, int poweredWheelCount)
+    {
+        if (currentRPM >= (engine.MaxRPM - engine.IdleRange))
+        {
+            return 0.0f;
+        }
+        if (currentSpeed >= 144)
+        {
+            return 0.0f;
+        }
+        float currentPower = CalculateCurrentTorque(currentRPM);
+        return -(accelerationForce * transmission.CalculateOutputTorque(currentPower)) / poweredWheelCount;
     }
 
     public float GetMinRPM()
@@ -29,6 +49,11 @@ public class Engine : MonoBehaviour
     public float GetIdleRange()
     {
         return engine.IdleRange;
+    }
+
+    public float GetPistonCount()
+    {
+        return engine.PistonCount;
     }
 
     private void Update()

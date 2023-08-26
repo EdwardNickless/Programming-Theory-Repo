@@ -7,8 +7,6 @@ public class Vehicle : MonoBehaviour
     [SerializeField] private Transmission transmission;
     [SerializeField] private HUD headsUp;
     [SerializeField] private Transform centerOfMass;
-    
-    public float brakingForce;
 
     private Rigidbody carRb;
     private int poweredWheelCount;
@@ -16,24 +14,30 @@ public class Vehicle : MonoBehaviour
     private float currentRPM;
     private float currentTime = 0.5f;
 
+    public Rigidbody Rigidbody { get { return carRb; } }
     public int PoweredWheelCount { get { return poweredWheelCount; } private set { poweredWheelCount = value; } }
     public float CurrentRPM { get { return currentRPM; } private set { currentRPM = value; } }
 
     public void CalculateCurrentRPM(Wheel[] wheels)
     {
+        if (Input.GetKey(KeyCode.S))
+        {
+            return;
+        }
+
         float totalRPM = 0.0f;
 
         foreach (Wheel wheel in wheels)
         {
             if (wheel.IsPowered)
             {
-                totalRPM = (wheel.RPM() >= 0) ? wheel.RPM() : -(wheel.RPM()) ;
+                totalRPM = (wheel.RPM() >= 0) ? wheel.RPM() : -(wheel.RPM());
             }
         }
         totalRPM *= transmission.GetMultiplier();
-        
+
         CurrentRPM = Mathf.Min(totalRPM, engine.GetMaxRPM());
-        
+
         if (CurrentRPM < (engine.GetMinRPM() + engine.GetIdleRange()))
         {
             CurrentRPM = EngineIdleRPM();
@@ -88,11 +92,8 @@ public class Vehicle : MonoBehaviour
     {
         foreach (Wheel wheel in wheels)
         {
-            if (wheel.IsPowered)
-            {
-                float torqueAtWheel = engine.CalculateOutputTorque(CurrentRPM, PoweredWheelCount);
-                wheel.OperateWheel(torqueAtWheel, brakingForce, currentSpeed);
-            }
+            float torqueAtWheel = engine.CalculateOutputTorque(CurrentRPM, currentSpeed, PoweredWheelCount);
+            wheel.OperateWheel(torqueAtWheel, currentSpeed);
         }
     }
 }
