@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class HUD : MonoBehaviour
 {
     [SerializeField] TMP_Text gearText;

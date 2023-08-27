@@ -84,4 +84,5 @@ MonoBehaviour:
   minRPM: 1000
   maxRPM: 6500
   idleRange: 10
+  redLineRange: 5
   pistonCount: 3
