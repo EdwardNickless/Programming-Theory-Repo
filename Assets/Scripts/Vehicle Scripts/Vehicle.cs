@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class Vehicle : MonoBehaviour
@@ -20,8 +22,15 @@ public class Vehicle : MonoBehaviour
 
     public void CalculateCurrentRPM(Wheel[] wheels)
     {
+        if (Input.GetKey(KeyCode.W) && transmission.CurrentGear == 0)
+        {
+            StartCoroutine(nameof(RevEngineInNeutral));
+            return;
+        }
+
         if (Input.GetKey(KeyCode.S))
         {
+            StartCoroutine(nameof(DecreaseRPM));
             return;
         }
 
@@ -42,6 +51,22 @@ public class Vehicle : MonoBehaviour
         {
             CurrentRPM = EngineIdleRPM();
         }
+    }
+
+    private IEnumerator RevEngineInNeutral()
+    {
+        if (CurrentRPM >= engine.GetMaxRPM())
+        {
+            yield break;
+        }
+        yield return new WaitForFixedUpdate();
+        CurrentRPM = Mathf.Max(CurrentRPM * 1.05f, EngineIdleRPM());
+    }
+
+    private IEnumerator DecreaseRPM()
+    {
+        yield return new WaitForFixedUpdate();
+        CurrentRPM = Mathf.Max(CurrentRPM * 0.995f, EngineIdleRPM());
     }
 
     private float EngineIdleRPM()
