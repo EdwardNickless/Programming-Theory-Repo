@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Engine : MonoBehaviour
@@ -6,6 +7,7 @@ public class Engine : MonoBehaviour
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private Transmission transmission;
 
+    private float minRPM;
     private float maxRPM;
     private float currentPistonStep;
     private float idleMinRPM;
@@ -22,7 +24,9 @@ public class Engine : MonoBehaviour
 
     private void Start()
     {
+        minRPM = engineData.MinRPM;
         maxRPM = engineData.MaxRPM;
+        CurrentRPM = minRPM;
         idleMinRPM = engineData.MinRPM - engineData.IdleRange;
         idleMaxRPM = engineData.MinRPM + engineData.IdleRange;
         redLineMinRPM = maxRPM - engineData.RedLineRange;
@@ -30,11 +34,53 @@ public class Engine : MonoBehaviour
 
     public float CalculateCurrentRPM(Wheel[] wheels)
     {
+        if (!vehicle.IsGrounded)
+        {
+            return DisengagedRPM();
+        }
+        if (transmission.CurrentGear == 0)
+        {
+            return DisengagedRPM();
+        }
         CalculateRPMFromWheels(wheels);
         if (CurrentRPM <= idleMinRPM)
         {
             return IdleRPM();
         }
+        return CurrentRPM;
+    }
+
+    private float DisengagedRPM()
+    {
+        float throttle = Input.GetAxisRaw("Throttle");
+
+        if (throttle > 0)
+        {
+            return IncreaseRPM(throttle);
+        }
+        else
+        {
+            return DecreaseRPM();
+        }
+    }
+
+    private float IncreaseRPM(float throttle)
+    {
+        if (CurrentRPM >= maxRPM - engineData.RedLineRange)
+        {
+            return RedlineRPM();
+        }
+        CurrentRPM = Mathf.Max(IdleRPM(), CurrentRPM + (throttle * engineData.PowerCurve.Evaluate(CurrentRPM)));
+        return CurrentRPM;
+    }
+
+    private float DecreaseRPM()
+    {
+        if (CurrentRPM <= minRPM + engineData.IdleRange)
+        {
+            return IdleRPM();
+        }
+        CurrentRPM = Mathf.Min(RedlineRPM(), CurrentRPM - (engineData.PowerCurve.Evaluate(CurrentRPM)));
         return CurrentRPM;
     }
 

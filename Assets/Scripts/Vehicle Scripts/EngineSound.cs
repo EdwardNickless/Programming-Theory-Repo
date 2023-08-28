@@ -24,6 +24,6 @@ public class EngineSound : MonoBehaviour
 
     private float CalculatePitch()
     {
-        return vehicle.CurrentRPM / 1000.0f / engineData.PistonCount;
+        return vehicle.CurrentRPM / engineData.PistonCount / 1000.0f;
     }
 }

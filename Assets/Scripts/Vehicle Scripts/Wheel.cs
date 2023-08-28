@@ -13,6 +13,7 @@ public class Wheel : MonoBehaviour
     private WheelCollider wheelCollider;
 
     public bool IsPowered { get { return isPowered; } private set { isPowered = value; } }
+    public WheelCollider Collider { get { return wheelCollider; } }
 
     public float RPM()
     {
@@ -37,7 +38,7 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        if (vehicle.CurrentSpeed >= vehicle.MaxSpeed - 1)
+        if (vehicle.CurrentSpeed >= vehicle.MaxSpeed - 0.1f)
         {
             return 0.0f;
         }

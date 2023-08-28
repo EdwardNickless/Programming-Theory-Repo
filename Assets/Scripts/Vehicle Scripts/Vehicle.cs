@@ -21,6 +21,7 @@ public class Vehicle : MonoBehaviour
     public int MaxSpeed { get; private set; }
 
     public float PoweredWheels { get; private set; }
+    public bool IsGrounded { get; private set; }
 
     private void Start()
     {
@@ -45,8 +46,22 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        currentSpeed = Mathf.RoundToInt((carRb.velocity.magnitude * 3600f) / 1609.34f);
-        currentRPM = engine.CalculateCurrentRPM(wheels);
-        currentGear = transmission.CurrentGear;
+        CurrentSpeed = Mathf.RoundToInt((carRb.velocity.magnitude * 3600f) / 1609.34f);
+        CurrentRPM = engine.CalculateCurrentRPM(wheels);
+        CurrentGear = transmission.CurrentGear;
+        IsGrounded = CheckGroundContact();
+    }
+
+    private bool CheckGroundContact()
+    {
+        int count = 0;
+        foreach (Wheel wheel in wheels)
+        {
+            if (wheel.Collider.isGrounded)
+            {
+                count++;
+            }
+        }
+        return (count == 4);
     }
 }
