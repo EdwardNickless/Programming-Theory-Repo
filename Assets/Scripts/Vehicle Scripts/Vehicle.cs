@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Vehicle : MonoBehaviour
@@ -10,25 +9,33 @@ public class Vehicle : MonoBehaviour
 
     private Rigidbody carRb;
 
-    private float currentSpeed;
-    private float currentRPM;
     private int currentGear;
+    private int currentSpeed;
+    private float currentRPM;
+    private float kerbWeight;
+    private float downForce;
+    private float downForceMultiplier;
 
     public Rigidbody Rigidbody { get { return carRb; } }
-    public float CurrentSpeed { get { return currentSpeed; } private set { currentSpeed = value; } }
-    public float CurrentRPM { get { return currentRPM; } private set { currentRPM = value; } }
     public int CurrentGear {  get { return currentGear; } private set { currentGear = value; } }
-    public int MaxSpeed { get; private set; }
+    public int CurrentSpeed { get { return currentSpeed; } private set { currentSpeed = value; } }
+    public float CurrentRPM { get { return currentRPM; } private set { currentRPM = value; } }
+    public float KerbWeight { get { return kerbWeight; } private set { kerbWeight = value; } }
+    public float DownForce { get { return downForce; } private set { downForce = value; } }
 
+    public int MaxSpeed { get; private set; }
     public float PoweredWheels { get; private set; }
     public bool IsGrounded { get; private set; }
+
 
     private void Start()
     {
         carRb = GetComponent<Rigidbody>();
         carRb.centerOfMass = centerOfMass.position;
-        PoweredWheels = CountPoweredWheels();
+        CalculateKerbWeight();
+        downForceMultiplier = 0.01f;
         MaxSpeed = engine.GetMaxSpeed();
+        PoweredWheels = CountPoweredWheels();
     }
 
     private float CountPoweredWheels()
@@ -50,6 +57,8 @@ public class Vehicle : MonoBehaviour
         CurrentRPM = engine.CalculateCurrentRPM(wheels);
         CurrentGear = transmission.CurrentGear;
         IsGrounded = CheckGroundContact();
+        DownForce = CurrentSpeed * kerbWeight *  downForceMultiplier;
+        SimulateDownForce();
     }
 
     private bool CheckGroundContact()
@@ -63,5 +72,22 @@ public class Vehicle : MonoBehaviour
             }
         }
         return (count == 4);
+    }
+
+    private void CalculateKerbWeight()
+    {
+        KerbWeight = carRb.mass;
+        foreach (Wheel wheel in wheels)
+        {
+            KerbWeight += wheel.Collider.mass;
+        }
+    }
+
+    private void SimulateDownForce()
+    {
+        if (IsGrounded)
+        {
+            carRb.AddForce(DownForce * Vector3.down);
+        }
     }
 }

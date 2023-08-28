@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Wheel : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve wheelCurve;
-    [SerializeField] private Brake brake;
-    [SerializeField] private Transmission transmission;
-    [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private Vehicle vehicle;
+    [SerializeField] private Transmission transmission;
+    [SerializeField] private BrakeData brakeData;
+    [SerializeField] private AnimationCurve wheelCurve;
+    [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
 
@@ -28,8 +28,8 @@ public class Wheel : MonoBehaviour
     private void Update()
     {
         wheelCollider.motorTorque = Accelerate(Input.GetAxisRaw("Throttle"));
-        Brake(brake.StoppingForce);
-        Steer(Input.GetAxisRaw("Steer"));
+        wheelCollider.brakeTorque = Brake(Input.GetAxisRaw("BrakePedal"));
+        wheelCollider.steerAngle = Steer(Input.GetAxisRaw("Steer"));
     }
 
     private float Accelerate(float throttle)
@@ -38,7 +38,7 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        if (vehicle.CurrentSpeed >= vehicle.MaxSpeed - 0.1f)
+        if (vehicle.CurrentSpeed >= vehicle.MaxSpeed)
         {
             return 0.0f;
         }
@@ -67,19 +67,24 @@ public class Wheel : MonoBehaviour
         return torqueAtWheel;
     }
 
-    private void Brake(float stoppingForce)
+    private float Brake(float brakePedal)
     {
-        wheelCollider.brakeTorque = stoppingForce;
+        if (brakePedal < 0.1f)
+        {
+            return 0.0f;
+        }
+        float brakingForce = vehicle.KerbWeight * vehicle.DownForce * brakeData.brakeEfficiency;
+        return brakePedal * brakingForce;
     }
 
-    private void Steer(float turnForce)
+    private float Steer(float steerAngle)
     {
         if (!isSteered)
         {
-            return;
+            return 0.0f;
         }
-        float steerAngle = turnForce * wheelCurve.Evaluate(vehicle.CurrentSpeed);
-        wheelCollider.steerAngle = steerAngle;
+        float turnForce = wheelCurve.Evaluate(vehicle.CurrentSpeed);
+        return steerAngle * turnForce;
     }
 
     private void LateUpdate()

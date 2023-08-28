@@ -11,8 +11,9 @@ public class HUD : MonoBehaviour
 
     private void Awake()
     {
-        gearText.text = "Gear: 1";
+        gearText.text = "Gear: N";
         speedometerText.text = "0 mph";
+        rpmText.text = "0 rpm";
     }
 
     private void FixedUpdate()
