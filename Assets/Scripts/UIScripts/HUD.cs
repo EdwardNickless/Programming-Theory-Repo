@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class HUD : MonoBehaviour
 {
     [SerializeField] TMP_Text gearText;
     [SerializeField] TMP_Text speedometerText;
     [SerializeField] TMP_Text rpmText;
+
+    [SerializeField] private Vehicle vehicle;
 
     private void Awake()
     {
@@ -14,14 +15,29 @@ public class HUD : MonoBehaviour
         speedometerText.text = "0 mph";
     }
 
-    public void UpdateHUD(int currentGear, float currentSpeed, float currentRPM)
+    private void FixedUpdate()
     {
-        UpdateGearText(currentGear);
-        UpdateSpeedometerText(currentSpeed);
-        UpdateRPMText(currentRPM);
+        UpdateHUD();
     }
 
-    private void UpdateGearText(int currentGear)
+    private void UpdateHUD()
+    {
+        UpdateSpeedometerText(vehicle.CurrentSpeed);
+        UpdateRPMText(vehicle.CurrentRPM);
+        UpdateGearText(vehicle.CurrentGear);
+    }
+
+    public void UpdateSpeedometerText(float currentSpeed)
+    {
+        speedometerText.text = currentSpeed + " mph";
+    }
+
+    public void UpdateRPMText(float currentRPM)
+    {
+        rpmText.text = Mathf.RoundToInt(currentRPM) + " rpm";
+    }
+
+    public void UpdateGearText(int currentGear)
     {
         if (currentGear == 0)
         {
@@ -35,15 +51,5 @@ public class HUD : MonoBehaviour
         {
             gearText.text = "Gear: " + currentGear;
         }
-    }
-
-    private void UpdateSpeedometerText(float currentSpeed)
-    {
-        speedometerText.text = Mathf.RoundToInt(currentSpeed) + " mph";
-    }
-
-    private void UpdateRPMText(float currentRPM)
-    {
-        rpmText.text = Mathf.RoundToInt(currentRPM) + " rpm";
     }
 }

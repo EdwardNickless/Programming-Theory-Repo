@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76550a234884f97419ad49af1c4f79ad, type: 3}
-  m_Name: FiestaTransmission
+  m_Name: Transmission
   m_EditorClassIdentifier: 
   gearRatios:
     keys: 00000000010000000200000003000000040000000500000006000000

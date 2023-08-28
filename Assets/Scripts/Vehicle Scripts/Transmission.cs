@@ -3,22 +3,24 @@ using UnityEngine;
 public class Transmission : MonoBehaviour
 {
     [SerializeField] private TransmissionData transmissionData;
+    [SerializeField] private Engine engine;
+    [SerializeField] private AnimationCurve torqueCurve;
 
     private GearRatiosDictionary gearRatios;
     private int currentGear;
     private int topGear;
     private float differentialRatio;
     private float reverseGearRatio;
-    private float outputTorque;
+    private float crankshaftTorque;
 
     public int CurrentGear { get { return currentGear; } private set { currentGear = value; } }
-    public float OutputTorque { get { return outputTorque; } private set { outputTorque = value; } }
+    public float CrankshaftTorque { get { return crankshaftTorque; } private set { crankshaftTorque = value; } }
     
     public float GetMultiplier()
     {
         if (currentGear == 0)
         {
-            return 1.0f;
+            return gearRatios.GetValue(currentGear) * differentialRatio * 2.0f;
         }
         if (currentGear > 0)
         {
@@ -35,22 +37,24 @@ public class Transmission : MonoBehaviour
         reverseGearRatio = transmissionData.ReverseGearRatio;
     }
 
-    public float CalculateOutputTorque(float crankshaftTorque)
-    {
-        if (currentGear > 0)
-        {
-            return crankshaftTorque * GetMultiplier();
-        }
-        if (currentGear < 0)
-        {
-            return -(crankshaftTorque * GetMultiplier());
-        }
-        else { return 0.0f; }
-    }
-
     private void Update()
     {
+        CrankshaftTorque = CalculateTorque();
         ChangeGear();
+    }
+
+    public float CalculateTorque()
+    {
+        if (engine.CurrentRPM >= engine.RedLineMinRPM)
+        {
+            return 0.0f;
+        }
+        float currentTorque = torqueCurve.Evaluate(engine.CurrentRPM) * GetMultiplier();
+        if (currentGear == -1)
+        {
+            currentTorque *= -1;
+        }
+        return currentTorque;
     }
 
     private void ChangeGear()
@@ -71,34 +75,15 @@ public class Transmission : MonoBehaviour
         {
             return;
         }
-        if (currentGear == -1)
-        {
-            currentGear = 0;
-            return;
-        }
-        if (currentGear < topGear)
-        {
-            currentGear++;
-            return;
-        }
+        CurrentGear++;
     }
 
     private void ShiftDown()
     {
-        if (currentGear > 1)
+        if (CurrentGear == -1)
         {
-            currentGear--;
             return;
         }
-        if (currentGear == 1)
-        {
-            currentGear = 0;
-            return;
-        }
-        if (currentGear == 0)
-        {
-            currentGear = -1;
-            return;
-        }
+        CurrentGear--;
     }
 }

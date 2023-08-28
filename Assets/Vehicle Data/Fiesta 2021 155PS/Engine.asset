@@ -10,8 +10,77 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 270de34386ea2c140acc9a6ad24f1ccb, type: 3}
-  m_Name: FiestaEngine
+  m_Name: Engine
   m_EditorClassIdentifier: 
+  powerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1000.0337
+      value: 20.42683
+      inSlope: 0.06542053
+      outSlope: 0.06542053
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1449.9517
+      value: 49.860703
+      inSlope: 0.05020882
+      outSlope: 0.05020882
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 4497.037
+      value: 156.49988
+      inSlope: 0.029249161
+      outSlope: 0.029249161
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5500.03
+      value: 180.07143
+      inSlope: 0.016689003
+      outSlope: 0.016689003
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5999.9917
+      value: 185.00945
+      inSlope: -0.010083274
+      outSlope: -0.010083274
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 6500.0054
+      value: 169.98737
+      inSlope: 0.049299866
+      outSlope: 0.049299866
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14149222
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 6701.32
+      value: 31.07154
+      inSlope: -0.690044
+      outSlope: -0.690044
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -86,3 +155,4 @@ MonoBehaviour:
   idleRange: 10
   redLineRange: 5
   pistonCount: 3
+  maxSpeed: 144

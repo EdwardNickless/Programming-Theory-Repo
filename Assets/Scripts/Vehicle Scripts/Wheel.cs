@@ -3,15 +3,15 @@ using UnityEngine;
 public class Wheel : MonoBehaviour
 {
     [SerializeField] private AnimationCurve wheelCurve;
-    [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private Brake brake;
     [SerializeField] private Transmission transmission;
+    [SerializeField] private Transform wheelMeshTransform;
+    [SerializeField] private Vehicle vehicle;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
 
     private WheelCollider wheelCollider;
-    private float turnForce;
-    
+
     public bool IsPowered { get { return isPowered; } private set { isPowered = value; } }
 
     public float RPM()
@@ -26,69 +26,23 @@ public class Wheel : MonoBehaviour
 
     private void Update()
     {
-        turnForce = Input.GetAxisRaw("Steer");
-    }
-
-    public void OperateWheel(float torqueAtWheel, float currentSpeed)
-    {
-        if (torqueAtWheel > 0)
-        {
-            Accelerate(torqueAtWheel);
-        }
-        else
-        {
-            Decelerate(torqueAtWheel);
-        }
+        wheelCollider.motorTorque = Accelerate(Input.GetAxisRaw("Throttle"));
         Brake(brake.StoppingForce);
-        Steer(currentSpeed);
+        Steer(Input.GetAxisRaw("Steer"));
     }
 
-    private void Accelerate(float torqueAtWheel)
+    private float Accelerate(float throttle)
     {
         if (!isPowered)
         {
-            return;
+            return 0.0f;
         }
-        float torqueApplied = TractionControl(torqueAtWheel);
-        wheelCollider.motorTorque = torqueApplied;
-    }
-
-    public void Decelerate(float torqueAtWheel)
-    {
-        if (!isPowered)
+        if (vehicle.CurrentSpeed >= vehicle.MaxSpeed - 1)
         {
-            return;
+            return 0.0f;
         }
-        wheelCollider.motorTorque = -torqueAtWheel;
-    }
-
-    private void Brake(float stoppingForce)
-    {
-        wheelCollider.brakeTorque = stoppingForce;
-    }
-
-    private void Steer(float currentSpeed)
-    {
-        if (!isSteered)
-        {
-            return;
-        }
-        float steerAngle = turnForce * wheelCurve.Evaluate(currentSpeed);
-        wheelCollider.steerAngle = steerAngle;
-    }
-
-    private void LateUpdate()
-    {
-        AnimateWheelMesh();
-    }
-
-    public void AnimateWheelMesh()
-    {
-        Vector3 position;
-        Quaternion rotation;
-        wheelCollider.GetWorldPose(out position, out rotation);
-        wheelMeshTransform.position = position;
-        wheelMeshTransform.rotation = rotation;
+        float torqueApplied = TractionControl(throttle * transmission.CrankshaftTorque);
+        return torqueApplied / vehicle.PoweredWheels;
     }
 
     private float TractionControl(float torqueAtWheel)
@@ -110,5 +64,34 @@ public class Wheel : MonoBehaviour
             return torqueAtWheel * 0.8f;
         }
         return torqueAtWheel;
+    }
+
+    private void Brake(float stoppingForce)
+    {
+        wheelCollider.brakeTorque = stoppingForce;
+    }
+
+    private void Steer(float turnForce)
+    {
+        if (!isSteered)
+        {
+            return;
+        }
+        float steerAngle = turnForce * wheelCurve.Evaluate(vehicle.CurrentSpeed);
+        wheelCollider.steerAngle = steerAngle;
+    }
+
+    private void LateUpdate()
+    {
+        AnimateWheelMesh();
+    }
+
+    public void AnimateWheelMesh()
+    {
+        Vector3 position;
+        Quaternion rotation;
+        wheelCollider.GetWorldPose(out position, out rotation);
+        wheelMeshTransform.position = position;
+        wheelMeshTransform.rotation = rotation;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class EngineSound : MonoBehaviour
 {
     [SerializeField] private AudioSource pistonFiringSound;
-    [SerializeField] private Engine engine;
+    [SerializeField] private EngineData engineData;
 
     private Vehicle vehicle;
 
@@ -24,9 +24,6 @@ public class EngineSound : MonoBehaviour
 
     private float CalculatePitch()
     {
-        //float targetPitch = vehicle.CurrentRPM / 1000.0f / engine.GetPistonCount();
-        //float pitchModifier = targetPitch * 0.01f;
-        //return Mathf.PingPong(targetPitch-pitchModifier, targetPitch+pitchModifier);
-        return vehicle.CurrentRPM / 1000.0f / engine.GetPistonCount();
+        return vehicle.CurrentRPM / 1000.0f / engineData.PistonCount;
     }
 }
