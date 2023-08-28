@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef96611d5930ea469fbf7abda5498c5, type: 3}
   m_Name: Brake
   m_EditorClassIdentifier: 
-  stoppingForce: 10000
+  stoppingForce: 0.1

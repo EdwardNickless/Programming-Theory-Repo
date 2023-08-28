@@ -33,15 +33,14 @@ public class Engine : MonoBehaviour
 
     public float CalculateCurrentRPM(Wheel[] wheels)
     {
-        if (!vehicle.IsGrounded)
-        {
-            return DisengagedRPM();
-        }
-        if (transmission.CurrentGear == 0)
-        {
-            return DisengagedRPM();
-        }
+        if (!vehicle.IsGrounded) { return DisengagedRPM(); }
+
+        if (transmission.CurrentGear == 0) { return DisengagedRPM(); }
+
+        if (Input.GetAxisRaw("BrakePedal") > 0.0f) { return DisengagedRPM(); }
+        
         CalculateRPMFromWheels(wheels);
+
         if (CurrentRPM <= idleMinRPM)
         {
             return IdleRPM();
@@ -53,13 +52,13 @@ public class Engine : MonoBehaviour
     {
         float throttle = Input.GetAxisRaw("Throttle");
 
-        if (throttle > 0)
+        if (throttle < 0.1f)
         {
-            return IncreaseRPM(throttle);
+            return DecreaseRPM();
         }
         else
         {
-            return DecreaseRPM();
+            return IncreaseRPM(throttle);
         }
     }
 
@@ -79,24 +78,38 @@ public class Engine : MonoBehaviour
         {
             return IdleRPM();
         }
-        CurrentRPM = Mathf.Min(RedlineRPM(), CurrentRPM - (engineData.PowerCurve.Evaluate(CurrentRPM)));
+        
+        float targetRPM = CurrentRPM - (engineData.PowerCurve.Evaluate(CurrentRPM) / 75);
+        CurrentRPM = Mathf.Min(RedlineRPM(), targetRPM);
+        
+        if (!vehicle.IsGrounded)
+        {
+            float airborneDecrease = (engineData.PowerCurve.Evaluate(CurrentRPM) * transmission.CurrentGear);
+            return CurrentRPM - airborneDecrease;
+        }
+        if (Input.GetAxisRaw("BrakePedal") > 0.0f)
+        {
+            float brakingDecrease = (engineData.TorqueCurve.Evaluate(CurrentRPM) * 7.5f);
+            return Mathf.Max(IdleRPM(), CurrentRPM - brakingDecrease);
+        }
+
         return CurrentRPM;
     }
 
     private void CalculateRPMFromWheels(Wheel[] wheels)
     {
-        float totalRPM = 0.0f;
+        float totalWheelRPM = 0.0f;
 
         foreach (Wheel wheel in wheels)
         {
             if (wheel.IsPowered)
             {
-                totalRPM += Mathf.Abs(wheel.RPM());
+                totalWheelRPM += Mathf.Abs(wheel.RPM());
             }
         }
-        totalRPM = (totalRPM * transmission.GetMultiplier()) / vehicle.PoweredWheels;
+        float newRPM = (totalWheelRPM * transmission.GetMultiplier()) / vehicle.PoweredWheels;
 
-        CurrentRPM = Mathf.Min(totalRPM, RedlineRPM());
+        CurrentRPM = Mathf.Min(newRPM, RedlineRPM());
     }
 
     private float IdleRPM()
