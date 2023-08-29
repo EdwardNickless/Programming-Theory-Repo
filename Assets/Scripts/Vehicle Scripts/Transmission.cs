@@ -15,7 +15,7 @@ public class Transmission : MonoBehaviour
 
     public int CurrentGear { get { return currentGear; } private set { currentGear = value; } }
     public float CrankshaftTorque { get { return crankshaftTorque; } private set { crankshaftTorque = value; } }
-    
+
     public float GetMultiplier()
     {
         if (currentGear == 0)
@@ -40,7 +40,7 @@ public class Transmission : MonoBehaviour
     private void Update()
     {
         CrankshaftTorque = CalculateTorque();
-        ChangeGear();
+        ChangeGearOnInput();
     }
 
     public float CalculateTorque()
@@ -57,7 +57,7 @@ public class Transmission : MonoBehaviour
         return currentTorque;
     }
 
-    private void ChangeGear()
+    private void ChangeGearOnInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -75,7 +75,11 @@ public class Transmission : MonoBehaviour
         {
             return;
         }
+        int previousGear = CurrentGear;
         CurrentGear++;
+        int nextGear = CurrentGear;
+        engine.RPMCoroutine();
+        engine.ChangeRPMOnGearChange(previousGear, nextGear);
     }
 
     private void ShiftDown()
@@ -84,6 +88,10 @@ public class Transmission : MonoBehaviour
         {
             return;
         }
+        int previousGear = CurrentGear;
         CurrentGear--;
+        int nextGear = CurrentGear;
+        engine.RPMCoroutine();
+        engine.ChangeRPMOnGearChange(previousGear, nextGear);
     }
 }

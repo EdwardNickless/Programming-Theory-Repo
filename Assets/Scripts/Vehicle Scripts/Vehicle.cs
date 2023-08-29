@@ -17,7 +17,7 @@ public class Vehicle : MonoBehaviour
     private float downForceMultiplier;
 
     public Rigidbody Rigidbody { get { return carRb; } }
-    public int CurrentGear {  get { return currentGear; } private set { currentGear = value; } }
+    public int CurrentGear { get { return currentGear; } private set { currentGear = value; } }
     public int CurrentSpeed { get { return currentSpeed; } private set { currentSpeed = value; } }
     public float CurrentRPM { get { return currentRPM; } private set { currentRPM = value; } }
     public float KerbWeight { get { return kerbWeight; } private set { kerbWeight = value; } }
@@ -53,11 +53,11 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        CurrentSpeed = Mathf.RoundToInt((carRb.velocity.magnitude * 3600f) / 1609.34f);
         CurrentRPM = engine.CalculateCurrentRPM(wheels);
         CurrentGear = transmission.CurrentGear;
+        CurrentSpeed = Mathf.RoundToInt((carRb.velocity.magnitude * 3600f) / 1609.34f);
         IsGrounded = CheckGroundContact();
-        DownForce = CurrentSpeed * kerbWeight *  downForceMultiplier;
+        DownForce = CurrentSpeed * kerbWeight * downForceMultiplier;
         SimulateDownForce();
     }
 
