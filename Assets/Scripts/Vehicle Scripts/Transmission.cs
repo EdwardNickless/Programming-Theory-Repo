@@ -20,7 +20,7 @@ public class Transmission : MonoBehaviour
     {
         if (currentGear == 0)
         {
-            return gearRatios.GetValue(currentGear) * differentialRatio * 2.0f;
+            return gearRatios.GetValue(currentGear) * differentialRatio * 1.5f;
         }
         if (currentGear > 0)
         {
@@ -75,11 +75,7 @@ public class Transmission : MonoBehaviour
         {
             return;
         }
-        int previousGear = CurrentGear;
         CurrentGear++;
-        int nextGear = CurrentGear;
-        engine.RPMCoroutine();
-        engine.ChangeRPMOnGearChange(previousGear, nextGear);
     }
 
     private void ShiftDown()
@@ -88,10 +84,6 @@ public class Transmission : MonoBehaviour
         {
             return;
         }
-        int previousGear = CurrentGear;
         CurrentGear--;
-        int nextGear = CurrentGear;
-        engine.RPMCoroutine();
-        engine.ChangeRPMOnGearChange(previousGear, nextGear);
     }
 }

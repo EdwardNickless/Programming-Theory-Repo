@@ -10,6 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef96611d5930ea469fbf7abda5498c5, type: 3}
-  m_Name: Brake
+  m_Name: Wheel
   m_EditorClassIdentifier: 
-  stoppingForce: 0.1
+  brakeEfficiency: 0.5
+  launchControl: 0
+  tractionControl: 0

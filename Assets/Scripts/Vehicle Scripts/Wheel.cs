@@ -4,8 +4,8 @@ public class Wheel : MonoBehaviour
 {
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private Transmission transmission;
-    [SerializeField] private BrakeData brakeData;
-    [SerializeField] private AnimationCurve wheelCurve;
+    [SerializeField] private WheelData wheelData;
+    [SerializeField] private AnimationCurve steeringCurve;
     [SerializeField] private Transform wheelMeshTransform;
     [SerializeField] private bool isPowered;
     [SerializeField] private bool isSteered;
@@ -42,27 +42,27 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        float torqueApplied = TractionControl(throttle * transmission.CrankshaftTorque);
+        float torqueApplied = LaunchControl(throttle * transmission.CrankshaftTorque);
         return torqueApplied / vehicle.PoweredWheels;
     }
 
-    private float TractionControl(float torqueAtWheel)
+    private float LaunchControl(float torqueAtWheel)
     {
-        if (transmission.CurrentGear > 2)
+        if (!wheelData.LaunchControl)
         {
             return torqueAtWheel;
         }
         if ((wheelCollider.rotationSpeed) > 1080)
         {
-            return torqueAtWheel * 0.6f;
+            return torqueAtWheel * 0.7f;
         }
         if ((wheelCollider.rotationSpeed) > 720)
         {
-            return torqueAtWheel * 0.7f;
+            return torqueAtWheel * 0.8f;
         }
         if ((wheelCollider.rotationSpeed) > 360)
         {
-            return torqueAtWheel * 0.8f;
+            return torqueAtWheel * 0.9f;
         }
         return torqueAtWheel;
     }
@@ -73,7 +73,7 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        float brakingForce = (vehicle.DownForce * 0.1f) + (vehicle.KerbWeight * brakeData.brakeEfficiency);
+        float brakingForce = (vehicle.DownForce * 0.1f) + (vehicle.KerbWeight * wheelData.BrakeEfficiency);
         if (!isPowered)
         {
             return (brakePedal * brakingForce) * 0.3f;
@@ -87,7 +87,7 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        float turnForce = wheelCurve.Evaluate(vehicle.CurrentSpeed);
+        float turnForce = steeringCurve.Evaluate(vehicle.CurrentSpeed);
         return steerAngle * turnForce;
     }
 

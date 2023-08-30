@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class Engine : MonoBehaviour
@@ -8,13 +6,11 @@ public class Engine : MonoBehaviour
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private Transmission transmission;
 
-    private float minRPM;
-    private float maxRPM;
     private float currentPistonStep;
     private float idleMinRPM;
     private float idleMaxRPM;
     private float redLineMinRPM;
-    private float brakingDecreaseMultiplier = 7.5f;
+    private float redLineMaxRPM;
 
     public float CurrentRPM { get; private set; }
     public float RedLineMinRPM { get { return redLineMinRPM; } private set { redLineMinRPM = value; } }
@@ -26,65 +22,18 @@ public class Engine : MonoBehaviour
 
     private void Start()
     {
-        minRPM = engineData.MinRPM;
-        maxRPM = engineData.MaxRPM;
-        CurrentRPM = minRPM;
         idleMinRPM = engineData.MinRPM - engineData.IdleRange;
         idleMaxRPM = engineData.MinRPM + engineData.IdleRange;
-        redLineMinRPM = maxRPM - engineData.RedLineRange;
-    }
-
-    public void ChangeRPMOnGearChange(int previousGear, int nextGear)
-    {
-        if (vehicle.CurrentSpeed == 0)
-        {
-            return;
-        }
-        if (!vehicle.IsGrounded)
-        {
-            return;
-        }
-        if (Input.GetAxisRaw("BrakePedal") < 0.1f)
-        {
-            return;
-        }
-
-        float currentRpmPercentage = (CurrentRPM / maxRPM);
-
-        // Introduce a gear-dependent factor to reduce the impact in lower gears
-        float gearFactor = 1.0f / (previousGear * 0.5f + 1.0f); // Adjust the coefficient (0.5f) as needed
-
-        float torqueFactor = previousGear * engineData.TorqueCurve.Evaluate(CurrentRPM);
-        float speedFactor = (vehicle.CurrentSpeed * 0.5f);
-
-        // Adjust the factor for speedFactor in lower gears
-        float speedFactorAdjustment = 1.0f / (previousGear * 0.25f + 1.0f); // Adjust the coefficient (0.25f) as needed
-
-        float finalChangeNemerator = currentRpmPercentage * torqueFactor * speedFactor;
-        float finalChangeDenominator = (speedFactor * 0.25f) * gearFactor * speedFactorAdjustment;
-        float finalChange = finalChangeNemerator / finalChangeDenominator;
-
-        if (nextGear == 0)
-        {
-            return;
-        }
-        if (previousGear > nextGear)
-        {
-            CurrentRPM += finalChange;
-        }
-        else
-        {
-            CurrentRPM -= finalChange;
-        }
+        redLineMinRPM = engineData.MaxRPM - engineData.RedLineRange;
+        redLineMaxRPM = engineData.MaxRPM + engineData.RedLineRange;
+        CurrentRPM = idleMinRPM;
     }
 
     public float CalculateCurrentRPM(Wheel[] wheels)
     {
-        if (!vehicle.IsGrounded) { return DisengagedRPM(); }
+        if (!vehicle.IsGrounded) { return ArtificialRPM(); }
 
-        if (transmission.CurrentGear == 0) { return DisengagedRPM(); }
-
-        if (Input.GetAxisRaw("BrakePedal") > 0.0f) { return DisengagedRPM(); }
+        if (transmission.CurrentGear == 0) { return ArtificialRPM(); }
 
         CalculateRPMFromWheels(wheels);
 
@@ -95,23 +44,23 @@ public class Engine : MonoBehaviour
         return CurrentRPM;
     }
 
-    private float DisengagedRPM()
+    private float ArtificialRPM()
     {
         float throttle = Input.GetAxisRaw("Throttle");
 
         if (throttle < 0.1f)
         {
-            return DecreaseRPM();
+            return DecreaseArtificialRPM();
         }
         else
         {
-            return IncreaseRPM(throttle);
+            return IncreaseArtificalRPM(throttle);
         }
     }
 
-    private float IncreaseRPM(float throttle)
+    private float IncreaseArtificalRPM(float throttle)
     {
-        if (CurrentRPM >= maxRPM - engineData.RedLineRange)
+        if (CurrentRPM >= redLineMinRPM)
         {
             return RedlineRPM();
         }
@@ -119,9 +68,9 @@ public class Engine : MonoBehaviour
         return CurrentRPM;
     }
 
-    private float DecreaseRPM()
+    private float DecreaseArtificialRPM()
     {
-        if (CurrentRPM <= minRPM + engineData.IdleRange)
+        if (CurrentRPM <= idleMaxRPM)
         {
             return IdleRPM();
         }
@@ -137,11 +86,6 @@ public class Engine : MonoBehaviour
         {
             float airborneDecrease = (engineData.PowerCurve.Evaluate(CurrentRPM) * transmission.CurrentGear);
             return CurrentRPM - airborneDecrease;
-        }
-        if (Input.GetAxisRaw("BrakePedal") > 0.0f)
-        {
-            float brakingDecrease = (engineData.TorqueCurve.Evaluate(CurrentRPM) * brakingDecreaseMultiplier);
-            return Mathf.Max(IdleRPM(), CurrentRPM - brakingDecrease);
         }
 
         return CurrentRPM;
@@ -161,14 +105,15 @@ public class Engine : MonoBehaviour
         float newRPM = (totalWheelRPM * transmission.GetMultiplier()) / vehicle.PoweredWheels;
 
         CurrentRPM = Mathf.Min(newRPM, RedlineRPM());
+
+        if (CurrentRPM <= idleMaxRPM)
+        {
+            CurrentRPM = IdleRPM();
+        }
     }
 
     private float IdleRPM()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            return CurrentRPM;
-        }
         currentPistonStep += Time.deltaTime;
 
         float currentStep = Mathf.PingPong(currentPistonStep, 1.0f);
@@ -177,8 +122,8 @@ public class Engine : MonoBehaviour
         {
             currentPistonStep = 0.0f;
         }
-
-        return Mathf.Lerp(idleMinRPM, idleMaxRPM, currentStep);
+        float lerpedRPM = Mathf.Lerp(idleMinRPM, idleMaxRPM, currentStep);
+        return Mathf.Max(idleMinRPM, lerpedRPM);
     }
 
     private float RedlineRPM()
@@ -192,20 +137,6 @@ public class Engine : MonoBehaviour
             currentPistonStep = 0.0f;
         }
 
-        return Mathf.Lerp(redLineMinRPM, maxRPM, currentStep);
-    }
-
-    public void RPMCoroutine()
-    {
-        StopAllCoroutines();
-        StartCoroutine(nameof(LimitRPMDecrease));
-    }
-
-    private IEnumerator LimitRPMDecrease()
-    {
-        float originalDecreaseMultiplier = brakingDecreaseMultiplier;
-        brakingDecreaseMultiplier *= 0.1f;
-        yield return new WaitForSeconds(transmission.CurrentGear / 2);
-        brakingDecreaseMultiplier = originalDecreaseMultiplier;
+        return Mathf.Lerp(redLineMinRPM, redLineMaxRPM, currentStep);
     }
 }
