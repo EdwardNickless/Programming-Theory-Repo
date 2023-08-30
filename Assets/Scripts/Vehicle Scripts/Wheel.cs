@@ -73,7 +73,11 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        float brakingForce = vehicle.KerbWeight * vehicle.DownForce * brakeData.brakeEfficiency;
+        float brakingForce = (vehicle.DownForce * 0.1f) + (vehicle.KerbWeight * brakeData.brakeEfficiency);
+        if (!isPowered)
+        {
+            return (brakePedal * brakingForce) * 0.3f;
+        }
         return brakePedal * brakingForce;
     }
 
