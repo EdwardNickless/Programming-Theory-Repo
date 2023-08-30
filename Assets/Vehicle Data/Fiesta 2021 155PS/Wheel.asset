@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wheel
   m_EditorClassIdentifier: 
   brakeEfficiency: 0.5
-  launchControl: 0
+  launchControl: 1
   tractionControl: 0
