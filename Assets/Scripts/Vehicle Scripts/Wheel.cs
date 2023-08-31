@@ -11,6 +11,12 @@ public class Wheel : MonoBehaviour
     [SerializeField] private bool isSteered;
 
     private WheelCollider wheelCollider;
+    private float forwardAsymptoteSlip;
+    private float sidewaysAsymptoteSlip;
+    private bool hasTractionControl;
+    private float asymptoteMultiplier;
+    private WheelFrictionCurve forwardFriction;
+    private WheelFrictionCurve sidewaysFriction;
 
     public bool IsPowered { get { return isPowered; } private set { isPowered = value; } }
     public WheelCollider Collider { get { return wheelCollider; } }
@@ -23,6 +29,12 @@ public class Wheel : MonoBehaviour
     private void Start()
     {
         wheelCollider = GetComponent<WheelCollider>();
+        hasTractionControl = wheelData.TractionControl;
+        forwardAsymptoteSlip = wheelCollider.forwardFriction.asymptoteSlip;
+        sidewaysAsymptoteSlip = wheelCollider.sidewaysFriction.asymptoteSlip;
+        asymptoteMultiplier = wheelData.AsymptoteMultiplier;
+        forwardFriction = wheelCollider.forwardFriction;
+        sidewaysFriction = wheelCollider.sidewaysFriction;
     }
 
     private void Update()
@@ -30,6 +42,41 @@ public class Wheel : MonoBehaviour
         wheelCollider.motorTorque = Accelerate(Input.GetAxisRaw("Throttle"));
         wheelCollider.brakeTorque = Brake(Input.GetAxisRaw("BrakePedal"));
         wheelCollider.steerAngle = Steer(Input.GetAxisRaw("Steer"));
+        ApplyTractionControl();
+    }
+
+    private void ApplyTractionControl()
+    {
+        if (!hasTractionControl)
+        {
+            return;
+        }
+        if (vehicle.CurrentSpeed == 0)
+        {
+            return;
+        }
+        if (Input.GetAxisRaw("Steer") == 0)
+        {
+            return;
+        }
+
+        float linearWheelSpeed = wheelCollider.rpm * (wheelCollider.radius * Mathf.PI * 2.0f) / 60.0f;
+        float currentSlip = Mathf.Abs(vehicle.CurrentSpeed - linearWheelSpeed);
+
+        if (currentSlip > wheelCollider.forwardFriction.extremumSlip)
+        {
+            forwardFriction.asymptoteSlip *= asymptoteMultiplier;
+            sidewaysFriction.asymptoteSlip *= asymptoteMultiplier;
+            wheelCollider.forwardFriction = forwardFriction;
+            wheelCollider.sidewaysFriction = sidewaysFriction;
+        }
+        else
+        {
+            forwardFriction.asymptoteSlip = forwardAsymptoteSlip;
+            sidewaysFriction.asymptoteSlip = sidewaysAsymptoteSlip;
+            wheelCollider.forwardFriction = forwardFriction;
+            wheelCollider.sidewaysFriction = sidewaysFriction;
+        }
     }
 
     private float Accelerate(float throttle)

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brakeEfficiency: 0.5
   launchControl: 1
-  tractionControl: 0
+  tractionControl: 1
+  asymptoteMultiplier: 2

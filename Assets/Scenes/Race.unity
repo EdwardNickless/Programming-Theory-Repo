@@ -3041,6 +3041,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 738752777646105161, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.65
+      objectReference: {fileID: 0}
     - target: {fileID: 1027154727804236281, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: brakeData
       value: 
@@ -3049,6 +3053,14 @@ PrefabInstance:
       propertyPath: wheelData
       value: 
       objectReference: {fileID: 11400000, guid: 4dc54bf866f51394394b3f2883cbc4d3, type: 2}
+    - target: {fileID: 1027154727804236281, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: hasTractionControl
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027154727804236281, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: tractionControlMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 1027154727804236281, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: steeringCurve.m_Curve.Array.size
       value: 3
@@ -3121,6 +3133,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fiesta_2021_155PS
       objectReference: {fileID: 0}
+    - target: {fileID: 2687979620527639426, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.65
+      objectReference: {fileID: 0}
     - target: {fileID: 3637217610666404605, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -3138,6 +3154,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4dc54bf866f51394394b3f2883cbc4d3, type: 2}
     - target: {fileID: 3811288853340938309, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: hasTractionControl
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811288853340938309, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: tractionControlMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811288853340938309, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: steeringCurve.m_Curve.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -3204,6 +3228,14 @@ PrefabInstance:
     - target: {fileID: 3811288853340938309, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[1].outWeight
       value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3835759804745282556, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858196308727666221, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: 5885886304977417810, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: brakeData
@@ -3280,6 +3312,26 @@ PrefabInstance:
     - target: {fileID: 5885886304977417810, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[1].outWeight
       value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325192930196836086, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607192432039049971, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7962382992284790178, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7962382992284790178, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015620069170739549, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: 8102479924635881694, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: brakeData
@@ -3332,6 +3384,10 @@ PrefabInstance:
     - target: {fileID: 8452201139769551740, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8492033648193129500, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: 8671445598041458749, guid: 4692b88c74f2e774496dd374ffaa8106, type: 3}
       propertyPath: car
