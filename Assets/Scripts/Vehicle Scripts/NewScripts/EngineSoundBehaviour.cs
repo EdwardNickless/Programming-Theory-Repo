@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class EngineSound : MonoBehaviour
+public class EngineSoundBehaviour : MonoBehaviour
 {
     [SerializeField] private AudioSource pistonFiringSound;
     [SerializeField] private EngineData engineData;
 
-    private Vehicle vehicle;
+    private VehicleBehaviour vehicle;
 
     private void Start()
     {
-        vehicle = GetComponentInParent<Vehicle>();
+        vehicle = GetComponentInParent<VehicleBehaviour>();
     }
 
     private void Update()

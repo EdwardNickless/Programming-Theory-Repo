@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Transmission : MonoBehaviour
+public class TransmissionBehaviour : MonoBehaviour
 {
     [SerializeField] private TransmissionData transmissionData;
-    [SerializeField] private Engine engine;
     [SerializeField] private AnimationCurve torqueCurve;
 
+    private EngineBehaviour engine;
     private GearRatiosDictionary gearRatios;
     private int currentGear;
     private int topGear;
@@ -15,6 +15,11 @@ public class Transmission : MonoBehaviour
 
     public int CurrentGear { get { return currentGear; } private set { currentGear = value; } }
     public float DriveshaftTorque { get { return driveshaftTorque; } private set { driveshaftTorque = value; } }
+
+    private void Awake()
+    {
+        engine = GetComponent<EngineBehaviour>();
+    }
 
     public float GetMultiplier()
     {
@@ -45,6 +50,10 @@ public class Transmission : MonoBehaviour
 
     public float CalculateTorque()
     {
+        if (engine.GetCurrentSpeed() >= engine.GetMaxSpeed())
+        {
+            return 0.0f;
+        }
         if (engine.CurrentRPM >= engine.RedLineMinRPM)
         {
             return 0.0f;

@@ -30,8 +30,10 @@ public class Wheel : MonoBehaviour
     {
         wheelCollider = GetComponent<WheelCollider>();
         hasTractionControl = wheelData.TractionControl;
+
         forwardAsymptoteSlip = wheelCollider.forwardFriction.asymptoteSlip;
         sidewaysAsymptoteSlip = wheelCollider.sidewaysFriction.asymptoteSlip;
+        
         asymptoteMultiplier = wheelData.AsymptoteMultiplier;
         forwardFriction = wheelCollider.forwardFriction;
         sidewaysFriction = wheelCollider.sidewaysFriction;
@@ -89,7 +91,7 @@ public class Wheel : MonoBehaviour
         {
             return 0.0f;
         }
-        float torqueApplied = LaunchControl(throttle * transmission.CrankshaftTorque);
+        float torqueApplied = LaunchControl(throttle * transmission.DriveshaftTorque);
         return torqueApplied / vehicle.PoweredWheels;
     }
 

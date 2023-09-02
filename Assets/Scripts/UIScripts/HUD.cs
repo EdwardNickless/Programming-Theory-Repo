@@ -7,7 +7,7 @@ public class HUD : MonoBehaviour
     [SerializeField] TMP_Text speedometerText;
     [SerializeField] TMP_Text rpmText;
 
-    [SerializeField] private Vehicle vehicle;
+    [SerializeField] private VehicleBehaviour vehicle;
 
     private void Awake()
     {
