@@ -14,8 +14,6 @@ public class SteeringBehaviour : MonoBehaviour
         wheels = GetComponentsInChildren<WheelBehaviour>();
     }
 
-    
-
     private void FixedUpdate()
     {
         float turnForce = steeringCurve.Evaluate(vehicle.CurrentSpeed);

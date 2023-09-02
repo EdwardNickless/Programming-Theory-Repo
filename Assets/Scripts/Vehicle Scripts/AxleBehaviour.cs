@@ -2,19 +2,26 @@ using UnityEngine;
 
 public class AxleBehaviour : MonoBehaviour
 {
-    [SerializeField] private bool isDriveAxle;
-    [SerializeField] private bool hasLaunchControl;
+    [SerializeField] private AxleData axleData;
 
     private WheelBehaviour[] wheels;
     private TransmissionBehaviour transmission;
+    private bool isDriveAxle;
+    private bool hasLaunchControl;
     private float driveShaftTorque;
 
-    public bool IsDriveAxle {  get { return isDriveAxle; } }
+    public bool IsDriveAxle { get { return isDriveAxle; } }
 
     private void Awake()
     {
         wheels = GetComponentsInChildren<WheelBehaviour>();
         transmission = GetComponentInParent<TransmissionBehaviour>();
+    }
+
+    private void Start()
+    {
+        isDriveAxle = axleData.IsDriveAxle;
+        hasLaunchControl = axleData.HasLaunchControl;
     }
 
     private void FixedUpdate()
@@ -30,7 +37,7 @@ public class AxleBehaviour : MonoBehaviour
         foreach (WheelBehaviour wheel in wheels)
         {
             float torqueAtWheel = CalculateTorqueAtWheel(wheel, initialTorque);
-            wheel.SetTorqueAtWheel(torqueAtWheel / wheels.Length);
+            wheel.SetAccelerationTorque(torqueAtWheel / wheels.Length);
         }
     }
 
@@ -50,6 +57,16 @@ public class AxleBehaviour : MonoBehaviour
         {
             return 1.0f;
         }
+        if (transmission.CurrentGear > 1)
+        {
+            return 1.0f;
+        }
+        float torqueMultiplier = CalculateTorqueMultiplier(wheel);
+        return torqueMultiplier;
+    }
+
+    private float CalculateTorqueMultiplier(WheelBehaviour wheel)
+    {
         if (wheel.Collider.rotationSpeed > 1080)
         {
             return 0.7f;

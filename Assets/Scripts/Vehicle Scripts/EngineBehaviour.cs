@@ -110,7 +110,7 @@ public class EngineBehaviour : MonoBehaviour
         {
             if (wheel.IsPowered)
             {
-                totalWheelRPM += wheel.RPM;
+                totalWheelRPM += Mathf.Abs(wheel.RPM);
             }
         }
 

@@ -4,8 +4,9 @@ public class WheelBehaviour : MonoBehaviour
 {
     private AxleBehaviour axle;
     private WheelCollider wheelCollider;
-    private float torqueAtWheel;
+    private float accelerationTorque;
     private float turnAngle;
+    private float brakeTorque;
 
     public float RPM { get { return wheelCollider.rpm; } }
 
@@ -19,9 +20,9 @@ public class WheelBehaviour : MonoBehaviour
         wheelCollider = GetComponent<WheelCollider>();
     }
 
-    public void SetTorqueAtWheel(float torque)
+    public void SetAccelerationTorque(float torque)
     {
-        torqueAtWheel = torque;
+        accelerationTorque = torque;
     }
 
     public void SetSteeringAngle(float steeringForce)
@@ -29,10 +30,15 @@ public class WheelBehaviour : MonoBehaviour
         turnAngle = steeringForce;
     }
 
+    public void SetBrakeTorque(float torque)
+    {
+        brakeTorque = torque;
+    }
+
     private void FixedUpdate()
     {
-        wheelCollider.motorTorque = torqueAtWheel * Input.GetAxisRaw("Throttle");
+        wheelCollider.motorTorque = accelerationTorque * Input.GetAxisRaw("Throttle");
         wheelCollider.steerAngle = turnAngle * Input.GetAxisRaw("Steer");
-        //wheelCollider.brakeTorque = Brake(Input.GetAxisRaw("BrakePedal"));
+        wheelCollider.brakeTorque = brakeTorque * Input.GetAxisRaw("BrakePedal");
     }
 }
