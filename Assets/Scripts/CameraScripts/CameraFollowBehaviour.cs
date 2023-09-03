@@ -8,7 +8,7 @@ public class CameraFollowBehaviour : MonoBehaviour
     private VehicleBehaviour vehicle;
 
     private Vector3 viewPosition;
-    private Vector3 targetPosition;
+    private Vector3 viewTarget;
     private Vector3 maxDistancePosition;
 
     private string currentView;
@@ -18,12 +18,9 @@ public class CameraFollowBehaviour : MonoBehaviour
         switchBehaviour = GetComponent<CameraSwitchBehaviour>();
         vehicle = FindObjectOfType<VehicleBehaviour>();
     }
-
-    private void Start()
+    private void Update()
     {
-        currentView = switchBehaviour.ViewName;
-        viewPosition = switchBehaviour.CurrentView.GetPosition();
-        maxDistancePosition = viewPosition + new Vector3(0.0f, 0.0f, -2.0f);
+        UpdateCameraOnViewChange();
     }
 
     private void LateUpdate()
@@ -33,25 +30,15 @@ public class CameraFollowBehaviour : MonoBehaviour
 
     private void FollowVehicle()
     {
-        targetPosition = CalculateNextPosition();
-        if (currentView == "Follow View")
-        {
-            targetPosition = IncreaseFollowDistance();
-        }
-        transform.position = targetPosition;
-    }
-
-    private Vector3 CalculateNextPosition()
-    {
-        UpdateCameraOnViewChange();
-        return vehicle.transform.position + viewPosition;
+        transform.position = viewPosition;
+        transform.LookAt(viewTarget);
     }
 
     private void UpdateCameraOnViewChange()
     {
-        currentView = switchBehaviour.ViewName;
-        viewPosition = switchBehaviour.CurrentView.GetPosition();
-        transform.eulerAngles = switchBehaviour.CurrentView.GetEulerAngles();
+        currentView = switchBehaviour.CameraName;
+        viewPosition = switchBehaviour.CurrentView.position;
+        viewTarget = switchBehaviour.CurrentTarget.position;
     }
 
     private Vector3 IncreaseFollowDistance()

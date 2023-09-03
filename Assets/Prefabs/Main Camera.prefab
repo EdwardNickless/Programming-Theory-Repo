@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3585666834529119586}
   - component: {fileID: 5468749220588936042}
   - component: {fileID: 1114748375775540424}
+  - component: {fileID: 7822460189537638071}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -32,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 17.5, y: 0, z: 0}
 --- !u!20 &3585666834529119586
 Camera:
@@ -100,9 +101,74 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7687888298450544429}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8f9f26fda05ae1409216727aa20408e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  car: {fileID: 0}
+  distanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00008228421
+      value: 0.0020649508
+      inSlope: -0.00027642655
+      outSlope: -0.00027642655
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12451875
+    - serializedVersion: 3
+      time: 59.992336
+      value: 0.050772786
+      inSlope: 0.001519493
+      outSlope: 0.001519493
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.15529801
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 99.92214
+      value: 0.1975285
+      inSlope: 0.0073960046
+      outSlope: 0.0073960046
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.03476342
+    - serializedVersion: 3
+      time: 149.83208
+      value: 0.5697675
+      inSlope: 0.0031753439
+      outSlope: 0.0031753439
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08236039
+    - serializedVersion: 3
+      time: 249.98454
+      value: 0.989787
+      inSlope: -0.00028840886
+      outSlope: -0.00028840886
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.036579054
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7822460189537638071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7687888298450544429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c2acbbfa1879c4e9649df87d6f30ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadView: {fileID: 0}
+  operatorView: {fileID: 0}
+  followView: {fileID: 0}

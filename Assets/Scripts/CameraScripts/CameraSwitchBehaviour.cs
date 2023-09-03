@@ -3,79 +3,82 @@ using UnityEngine;
 
 public class CameraSwitchBehaviour : MonoBehaviour
 {
-    private Camera mainCamera;
+    [SerializeField] private Transform roadView;
+    [SerializeField] private Transform operatorView;
+    [SerializeField] private Transform followView;
+    private Transform roadTarget;
+    private Transform operatorTarget;
+    private Transform followTarget;
 
-    private int viewIndex;
-    private string viewName;
+    private Camera viewPoint;
+    private List<string> referenceNames;
+    private Dictionary<string, Transform> cameraViews;
+    private Dictionary<string, Transform> cameraTargets;
 
-    private Vector3 behindCarPosition;
-    private Vector3 behindCarRotation;
+    private int cameraIndex;
+    private string cameraName;
+    private string targetName;
 
-    private Vector3 operatorViewPosition;
-    private Vector3 operatorViewRotation;
+    public string CameraName { get { return cameraName; } private set { cameraName = value; } }
+    public string TargetName { get { return targetName; } private set { targetName = value; } }
 
-    private Vector3 frontBumperPosition;
-    private Vector3 frontBumperRotation;
-
-    private List<string> cameraViewNames;
-    private Dictionary<string, CameraView> cameraViews;
-
-    public string ViewName { get { return viewName; } private set { viewName = value; } }
-
-    public CameraView CurrentView { get { return cameraViews[ViewName]; } }
+    public Transform CurrentView { get { return cameraViews[cameraName]; } }
+    public Transform CurrentTarget { get { return cameraTargets[TargetName]; } }
 
     private void Awake()
     {
-        mainCamera = GetComponent<Camera>();
+        viewPoint = GetComponent<Camera>();
+        roadTarget = roadView.Find("RoadTarget");
+        operatorTarget = operatorView.Find("OperatorTarget");
+        followTarget = followView.Find("FollowTarget");
     }
 
     private void Start()
     {
-        InitialiseViews();
-        InitialiseCameraViewNamesList();
+        InitialiseCameraNames();
         InitialiseCameraViewsDictionary();
-        viewIndex = 0;
-        viewName = cameraViewNames[viewIndex];
-        SetCameraPositionAndRotation(viewIndex);
+        InitialiseCameraTargetsDictionary();
+        cameraIndex = 0;
+        CameraName = referenceNames[cameraIndex];
+        UpdateCurrentCamera(cameraIndex);
     }
 
-    private void InitialiseViews()
+    private void InitialiseCameraNames()
     {
-        behindCarPosition = new Vector3(0.0f, 2.0f, -4.0f);
-        behindCarRotation = new Vector3(15.0f, 0.0f, 0.0f);
-
-        operatorViewPosition = new Vector3(-0.15f, 1.25f, 1.0f);
-        operatorViewRotation = new Vector3(10.0f, 0.0f, 0.0f);
-
-        frontBumperPosition = new Vector3(0.0f, 0.5f, 2.0f);
-        frontBumperRotation = new Vector3(5.0f, 0.0f, 0.0f);
-    }
-
-    private void InitialiseCameraViewNamesList()
-    {
-        cameraViewNames = new List<string>
+        referenceNames = new List<string>
         {
             "Follow View",
             "Operator View",
-            "Bumper View"
+            "Road View"
         };
     }
 
     private void InitialiseCameraViewsDictionary()
     {
-        cameraViews = new Dictionary<string, CameraView>
+        cameraViews = new Dictionary<string, Transform>
         {
-            ["Follow View"] = new CameraView(behindCarPosition, behindCarRotation),
-            ["Operator View"] = new CameraView(operatorViewPosition, operatorViewRotation),
-            ["Bumper View"] = new CameraView(frontBumperPosition, frontBumperRotation)
+            ["Follow View"] = followView,
+            ["Operator View"] = operatorView,
+            ["Road View"] = roadView
         };
     }
 
-    private void SetCameraPositionAndRotation(int viewIndex)
+    private void InitialiseCameraTargetsDictionary()
     {
-        viewName = cameraViewNames[viewIndex];
-        mainCamera.transform.localPosition = cameraViews[viewName].GetPosition();
-        mainCamera.transform.localEulerAngles = cameraViews[viewName].GetEulerAngles();
+        cameraTargets = new Dictionary<string, Transform>
+        {
+            ["Follow View"] = followTarget,
+            ["Operator View"] = operatorTarget,
+            ["Road View"] = roadTarget
+        };
+    }
+
+    private void UpdateCurrentCamera(int viewIndex)
+    {
+        CameraName = referenceNames[viewIndex];
+        TargetName = referenceNames[viewIndex];
+        viewPoint.transform.position = cameraViews[cameraName].position;
+        viewPoint.transform.localEulerAngles = cameraViews[cameraName].eulerAngles;
     }
 
     private void Update()
@@ -88,11 +91,11 @@ public class CameraSwitchBehaviour : MonoBehaviour
 
     private void ChangeView()
     {
-        viewIndex++;
-        if (viewIndex >= cameraViewNames.Count)
+        cameraIndex++;
+        if (cameraIndex >= referenceNames.Count)
         {
-            viewIndex = 0;
+            cameraIndex = 0;
         }
-        SetCameraPositionAndRotation(viewIndex);
+        UpdateCurrentCamera(cameraIndex);
     }
 }
