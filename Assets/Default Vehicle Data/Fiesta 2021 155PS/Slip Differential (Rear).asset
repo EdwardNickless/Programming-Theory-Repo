@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 363a1446a67daea44a19a60cc07129c3, type: 3}
-  m_Name: Slip Differential
+  m_Name: Slip Differential (Rear)
   m_EditorClassIdentifier: 
   hasTractionControl: 1
   defaultForwardStiffness: 1
   defaultSidewaysStiffness: 1
-  increasedStiffness: 1.5
+  increasedStiffness: 1.25
