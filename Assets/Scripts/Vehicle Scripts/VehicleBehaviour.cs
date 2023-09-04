@@ -25,6 +25,8 @@ public class VehicleBehaviour : MonoBehaviour
     public float DownForce { get { return downForce; } private set { downForce = value; } }
 
     public int MaxSpeed { get; private set; }
+    public float MinRPM { get { return engine.MinRPM; } }
+    public float MaxRPM { get { return engine.MaxRPM; } }
     public float PoweredWheels { get; private set; }
     public bool IsGrounded { get; private set; }
 

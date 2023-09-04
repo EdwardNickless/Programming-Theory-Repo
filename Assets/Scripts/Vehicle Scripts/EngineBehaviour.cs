@@ -13,6 +13,8 @@ public class EngineBehaviour : MonoBehaviour
     private float redLineMaxRPM;
 
     public float CurrentRPM { get; private set; }
+    public float MinRPM { get { return engineData.MinRPM; } }
+    public float MaxRPM { get { return engineData.MaxRPM; } }
     public float RedLineMinRPM { get { return redLineMinRPM; } private set { redLineMinRPM = value; } }
 
     public int GetMaxSpeed()
