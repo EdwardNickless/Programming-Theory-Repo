@@ -1,42 +1,30 @@
 using TMPro;
 using UnityEngine;
 
-public class HUD : MonoBehaviour
+public class GearIndicatorBehaviour : MonoBehaviour
 {
     [SerializeField] private VehicleBehaviour vehicle;
-    [SerializeField] TMP_Text speedometerText;
 
     private TMP_Text gearText;
+    private int lastKnownGear;
 
     private void Awake()
     {
-        gearText = transform.Find("Gear").GetComponent<TMP_Text>();
-    }
-
-    private void Start()
-    {
-        gearText.text = "N";
-        speedometerText.text = "0 mph";
+        gearText = GetComponent<TMP_Text>();
     }
 
     private void FixedUpdate()
     {
-        UpdateHUD();
-    }
-
-    private void UpdateHUD()
-    {
-        UpdateSpeedometerText(vehicle.CurrentSpeed);
         UpdateGearText(vehicle.CurrentGear);
     }
-
-    public void UpdateSpeedometerText(float currentSpeed)
-    {
-        speedometerText.text = currentSpeed + " mph";
-    }
-
+    
     public void UpdateGearText(int currentGear)
     {
+        if(currentGear == lastKnownGear)
+        {
+            return;
+        }
+        
         if (currentGear == 0)
         {
             gearText.text = "N";
@@ -49,5 +37,6 @@ public class HUD : MonoBehaviour
         {
             gearText.text = currentGear.ToString();
         }
+        lastKnownGear = currentGear;
     }
 }

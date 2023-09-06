@@ -26,13 +26,8 @@ public class OdometerBehaviour : MonoBehaviour
     {
         currentSpeed = vehicle.CurrentSpeed;
     }
-
-    private void FixedUpdate()
-    {
-        CalculateDialPosition();
-    }
-
-    private float CalculateDialPosition()
+    
+    private float CalculateNextDialPosition()
     {
         float totalAngleSize = MIN_SPEED_ANGLE - MAX_SPEED_ANGLE;
         float rpmNormalized = currentSpeed / maxSpeed;
@@ -40,13 +35,13 @@ public class OdometerBehaviour : MonoBehaviour
         return MIN_SPEED_ANGLE - rpmNormalized * totalAngleSize;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         MoveDial();
     }
 
     private void MoveDial()
     {
-        pivotPoint.eulerAngles = new Vector3(0, 0, CalculateDialPosition());
+        pivotPoint.eulerAngles = new Vector3(0, 0, CalculateNextDialPosition());
     }
 }

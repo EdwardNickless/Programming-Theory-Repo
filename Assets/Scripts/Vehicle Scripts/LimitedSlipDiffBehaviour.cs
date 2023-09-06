@@ -43,7 +43,7 @@ public class LimitedSlipDiffBehaviour : MonoBehaviour
 
     private void ApplyTractionControl()
     {
-        if (vehicle.CurrentSpeed < 20) { return; }
+        if (vehicle.CurrentSpeed < 10) { return; }
 
         if (Input.GetAxisRaw("Steer") == 0)
         {
